@@ -18,7 +18,7 @@
 </h1>
 
 <nav class="navbar mt-3 " role="navigation" aria-label="main navigation">
-    
+
 
     <div id="navbar" class="navbar-menu has-background-black " >
         <div class="navbar-start ml-auto has-text-white">
