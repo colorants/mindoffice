@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->string('video_title', 80);
-            $table->string('video_tags', 100);
-            $table->string('video_description' , 255);
-            $table->string('video_views', 255);
+            $table->foreignId('user_id')->constrained('users'); // foreign key
+            $table->foreignId('category_id')->constrained('categories'); // foreign key
+            $table->string('filename', 255);
+            $table->string('title', 80);
+            $table->string('description' , 255);
+            $table->integer('views');
             $table->timestamps();
         });
     }

@@ -6,7 +6,9 @@ class HomePageController extends Controller
 {
     public function index()
     {
-        return view('HomePage.index');
 
+        return view('HomePage.index');
     }
+
+
 }

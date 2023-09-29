@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ProfilePageController;
+use App\Http\Controllers\VideoCategoryController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomePageController::class, 'index']);
 Route::get('/profile', [ProfilePageController::class, 'index']);
+Route::get('/video', [VideoController::class, 'index']);
+Route::get('/video/upload', [VideoController::class, 'create']);
+Route::get('/video/category/{categoryId}', [VideoCategoryController::class, 'byCategory']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

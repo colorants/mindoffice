@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_video', function (Blueprint $table) {
-       $table->id();
-            $table->foreignId('user_id')->constrained('users'); // foreign key
-            $table->foreignId('video_id')->constrained('videos'); // foreign key
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 100);
+            $table->timestamps();
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_video');
+        Schema::dropIfExists('categories');
     }
 };
