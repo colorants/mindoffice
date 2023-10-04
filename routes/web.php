@@ -19,10 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomePageController::class, 'index']);
 Route::get('/profile', [ProfilePageController::class, 'index']);
-Route::get('/video', [VideoController::class, 'index']);
-Route::get('/video/upload', [VideoController::class, 'create']);
-Route::get('/video/category/{categoryId}', [VideoCategoryController::class, 'byCategory']);
+Route::get('/home', [VideoController::class, 'index']);
+Route::get('/videos/create', [VideoController::class, 'create'])->name('videos.create');
+Route::get('/videos/category/{categoryId}', [VideoCategoryController::class, 'byCategory']);
 
-Auth::routes();
+Auth::routes(
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+);
+
+Route::resource('videos', VideoController::class);
+Route::get('/videos', [VideoController::class, 'index']);

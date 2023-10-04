@@ -12,14 +12,14 @@ class Video extends Model
 
     protected $fillable = [
         'id',
-        'user_id',
-        'category_id',
-        'filename',
+//        'user_id',
+//        'category_id',
+//        'filename',
         'title',
         'description',
-        'views',
-        'created_at',
-        'updated_at',
+//        'views',
+//        'created_at',
+//        'updated_at',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

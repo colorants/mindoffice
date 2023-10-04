@@ -4,16 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+//    public function __construct()
+//    {
+//        $this->middleware('auth')->except(['index','show']);
+//    }
+
     public function index()
     {
         $videos = Video::all();
-        return view ('video.index',compact('videos'));
+        return view ('videos.index',compact('videos'));
     }
 
     /**
@@ -21,7 +28,7 @@ class VideoController extends Controller
      */
     public function create()
     {
-        return view ('video.create');
+        return view ('videos.create');
     }
 
     /**
@@ -29,7 +36,23 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = Auth::user()->id;
+
+        $request->validate([
+            'title'=>'required',
+            'description'=>'required',
+//            'filename'=>'required',
+//            'category_id'=>'required|numeric',
+        ]);
+
+        $video = new Video();
+        $video->user_id = $user_id;
+        $video->title = $request->input('title');
+        $video->description = $request->input('description');
+//        $video->filename = $request->input('filename');
+//        $video->category_id = $request->input('category_id');
+
+        $video->save(); //insert into
     }
 
     /**
