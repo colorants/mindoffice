@@ -17,10 +17,16 @@ class VideoController extends Controller
 //        $this->middleware('auth')->except(['index','show']);
 //    }
 
+public function __construct()
+{
+    $this->middleware('auth')->except(['index', 'show']);
+}
+
     public function index()
     {
-        $videos = Video::all();
-        return view ('videos.index',compact('videos'));
+       return view ('videos.index', [
+           'videos' => Video::all(),
+       ]);
     }
 
     /**
@@ -41,18 +47,17 @@ class VideoController extends Controller
         $request->validate([
             'title'=>'required',
             'description'=>'required',
-//            'filename'=>'required',
-//            'category_id'=>'required|numeric',
+            'category_id'=>'required|numeric',
         ]);
 
         $video = new Video();
         $video->user_id = $user_id;
         $video->title = $request->input('title');
         $video->description = $request->input('description');
-//        $video->filename = $request->input('filename');
-//        $video->category_id = $request->input('category_id');
 
         $video->save(); //insert into
+
+        return redirect()->route('videos.index');
     }
 
     /**
@@ -60,7 +65,9 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        //
+        return view('videos.show', [
+            'videos' => $video,
+        ]);
     }
 
     /**
@@ -68,7 +75,9 @@ class VideoController extends Controller
      */
     public function edit(Video $video)
     {
-        //
+        return view('videos.edit', [
+            'videos' => $video,
+        ]);
     }
 
     /**
@@ -76,7 +85,6 @@ class VideoController extends Controller
      */
     public function update(Request $request, Video $video)
     {
-        //
     }
 
     /**
@@ -84,6 +92,7 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
-        //
+       $video->delete();
+         return redirect()->route('videos.index');
     }
 }

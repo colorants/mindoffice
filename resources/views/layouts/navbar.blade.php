@@ -8,7 +8,7 @@
     <title>Laravel</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    {{--    <link rel="stylesheet" href="css/app.css">--}}
+        <link rel="stylesheet" href="css/app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -27,11 +27,10 @@
                Home
             </a>
 
-            <a class="navbar-item has-text-white" href="/profile">
-                Profile
+            <a class="navbar-item has-text-white" href="{{ route('register') }}">{{ __('Register') }}">
+                Register
             </a>
-
-            <a class="navbar-item has-text-white" href="/video">
+            <a class="navbar-item has-text-white" href="/videos/create">
                 Videos
             </a>
         </div>

@@ -9,12 +9,15 @@ class Category extends Model
 {
     use HasFactory;
 
-    public static function find(int $categoryId)
-    {
-    }
 
-    public function Category(): \Illuminate\Database\Eloquent\Relations\HasMany
+    protected $fillable = [
+        'id',
+        'title',
+        'description',
+    ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(User::class);
     }
 }

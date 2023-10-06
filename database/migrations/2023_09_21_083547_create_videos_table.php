@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users'); // foreign key
-            $table->foreignId('category_id')->constrained('categories'); // foreign key
-            $table->string('filename', 255);
             $table->string('title', 80);
             $table->string('description' , 255);
-            $table->integer('views');
             $table->timestamps();
         });
     }

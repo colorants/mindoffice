@@ -17,15 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomePageController::class, 'index']);
+Route::get('/', [VideoController::class, 'index']);
 Route::get('/profile', [ProfilePageController::class, 'index']);
 Route::get('/home', [VideoController::class, 'index']);
 Route::get('/videos/create', [VideoController::class, 'create'])->name('videos.create');
+Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.show');
+Route::get('/videos/{video}/edit', [VideoController::class, 'edit'])->name('videos.edit');
 Route::get('/videos/category/{categoryId}', [VideoCategoryController::class, 'byCategory']);
+Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 
-Auth::routes(
-
-);
+Auth::routes();
 
 Route::resource('videos', VideoController::class);
-Route::get('/videos', [VideoController::class, 'index']);
+
