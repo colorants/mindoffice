@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users'); // foreign key
             $table->string('title', 80);
             $table->string('description' , 255);
+            $table->foreignId('category_id')->constrained('categories'); // foreign key
+            $table->string('image');
             $table->timestamps();
         });
     }

@@ -9,14 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('user_video', function (Blueprint $table) {
-       $table->id();
-            $table->foreignId('user_id')->constrained('users'); // foreign key
-            $table->foreignId('video_id')->constrained('videos'); // foreign key
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('video_id');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');
+
+            $table->primary(['user_id', 'video_id']); // Define a composite primary key
         });
     }
+
 
     /**
      * Reverse the migrations.

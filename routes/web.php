@@ -17,16 +17,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', [VideoController::class, 'index']);
-Route::get('/profile', [ProfilePageController::class, 'index']);
+Route::get('/users', [ProfilePageController::class, 'index'])->name('users.index');
 Route::get('/home', [VideoController::class, 'index']);
+Route::put('/users/{user}', [ProfilePageController::class, 'update'])->name('users.update');
+
+// Example route for viewing a video
+Route::post('/videos/{video}/favorite', [VideoController::class,'toggleFavorite'])->name('videos.favorite.toggle');
+
+Route::get('/videos/{video}', 'VideoController@show')->middleware('video.access');
+Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 Route::get('/videos/create', [VideoController::class, 'create'])->name('videos.create');
 Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.show');
+Route::put('/videos/{video}', [VideoController::class, 'update'])->name('videos.update');
 Route::get('/videos/{video}/edit', [VideoController::class, 'edit'])->name('videos.edit');
-Route::get('/videos/category/{categoryId}', [VideoCategoryController::class, 'byCategory']);
-Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
+Route::get('/categories', [VideoCategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [VideoCategoryController::class, 'create'])->name('categories.create');
+Route::get('/categories/{category}', [VideoCategoryController::class, 'show'])->name('categories.show');
+Route::put('/categories/{category}', [VideoCategoryController::class, 'update'])->name('categories.update');
+Route::get('/categories/{category}/edit', [VideoCategoryController::class, 'edit'])->name('categories.edit');
 
 Auth::routes();
 
+Route::resource('categories', VideoCategoryController::class);
 Route::resource('videos', VideoController::class);
 

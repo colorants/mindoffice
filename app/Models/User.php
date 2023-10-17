@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is-admin',
+        'is_admin',
         'profile-picture'
     ];
 
@@ -44,4 +44,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // User.php model
+    public function favoriteVideos()
+    {
+        return $this->belongsToMany(Video::class, 'user_video', 'user_id', 'video_id')->withTimestamps();
+    }
+
+
 }

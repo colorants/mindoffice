@@ -6,10 +6,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ $videos->name }}</div>
+                    <div class="card-header">{{ $video->name }}</div>
 
                     <div class="card-body">
-                        <p>{{ $videos->description }}</p>
+                        <p>{{ $video->description }}</p>
+                        <p>{{ $video->created_at}}</p>
+                        <p>{{ $video->updated_at}}</p>
                         <a href="{{ route('videos.index') }}" class="btn btn-primary">Back</a>
                     </div>
                 </div>
