@@ -13,10 +13,6 @@ class VideoController extends Controller
      * Display a listing of the resource.
      */
 
-//    public function __construct()
-//    {
-//        $this->middleware('auth')->except(['index','show']);
-//    }
 
 public function __construct()
 {
@@ -25,7 +21,17 @@ public function __construct()
 
     public function index()
     {
-        $videos = Video::where('active', true)->get();
+        // Check if there is an authenticated user
+        if (Auth::check()) {
+            // If the user is an admin, fetch all videos (both active and inactive)
+            // If the user is not an admin, fetch only active videos
+            $user = Auth::user();
+            $videos = $user->is_admin ? Video::all() : Video::where('active', true)->get();
+        } else {
+            // If there is no authenticated user, fetch only active videos
+            $videos = Video::where('active', true)->get();
+        }
+
         $categories = Category::all();
 
         return view('videos.index', [
@@ -41,6 +47,7 @@ public function __construct()
     public function create()
     {
         return view ('videos.create' , [
+            'video' => new Video(), // Create a new instance of the Video model to be used in the form
             'categories' => Category::all(),
         ]);
     }
@@ -51,7 +58,12 @@ public function __construct()
     public function store(Request $request)
     {
 
-        // Validate request and handle other fields (title, description, category_id)
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional: Validate image upload
+        ]);
 
         // Handle image upload
         if ($request->hasFile('image')) {

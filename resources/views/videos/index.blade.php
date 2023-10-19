@@ -10,7 +10,6 @@
         @foreach($videos as $video)
 
 
-
                 <div class="column box m-1 is-one-quarter">
                     @if($video->image)
                         <img height="200" width="200"
@@ -28,7 +27,7 @@
                         <div class="buttons is-centered ">
 @auth()
     @csrf
-                            <a class="button is-success is-small" href="{{ route('videos.edit', $video->id) }}">Edit</a>
+                                <a class="button is-success is-small" href="{{ route('videos.edit', $video->id) }}">Edit</a>
 @endauth
 
                         <a class="button is-info is-small" href="/videos/{{$video->id}}" >Info</a>
@@ -44,7 +43,6 @@
 
                     </div>
                 </div>
-
 
 
 

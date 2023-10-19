@@ -54,9 +54,9 @@
         </div>
 
 
-        <div class="image is-flex justify-content-center">
+    <div class="name is-flex justify-content-center">
         <label for="image" class="form-label">Profielfoto</label>
-        <input type="file" class="form-control" id="image" name="image" accept="image/*"  >
+        <input type="file" class="" id="image" name="image" accept="image/*"  >
         @error('image')
         <div class="text-danger">{{ $message }}</div>
         @enderror
