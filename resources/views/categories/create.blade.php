@@ -27,7 +27,7 @@
 
 
         <div>
-            <button type="submit" class="button is-center">
+            <button type="submit" class="button">
                 Submit
             </button>
         </div>

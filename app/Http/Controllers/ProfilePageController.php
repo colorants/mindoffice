@@ -15,6 +15,7 @@ class ProfilePageController extends Controller
     }
 
     public function display_all()
+
     {
         $users = User::all();
         return view('users.display_all', [
@@ -71,6 +72,14 @@ class ProfilePageController extends Controller
         ]);
 
         return redirect()->route('users.index')->with('success', 'Profile updated successfully.');
+    }
+
+    public function favorites (User $user)
+    {
+        $videos = $user->favoritedVideos();
+        return view('users.index', [
+            'videos' => $videos,
+        ]);
     }
 }
 

@@ -1,12 +1,11 @@
 @extends ('layouts.app')
 
 @section ('content')
-
+    <section>
     <form action="{{ route('videos.store') }}" METHOD="POST" enctype="multipart/form-data">
 
         @csrf
 
-        <!--send user id with submit -->
 <div class="pt-1 m-2">
 
 
@@ -40,7 +39,7 @@
         <div class="name is-flex justify-content-center">
             <label for="category_id" class="form-label">
                 Category
-                <select name ="category_id" class = "form-control @error('category_id')  is-invalid @enderror"  value="{{ old('category_id') }}">
+                <select name ="category_id" class = "form-control @error('category_id')  is-invalid @enderror" >
                     @foreach($categories as $category)
                         <option value="{{$category->id}}">{{$category->title}}</option>
                     @endforeach
@@ -63,14 +62,13 @@
         </div>
 </div>
 
-
-
+    <form>
 <div class=" is-flex justify-content-center">
    <button type="submit" class="button ">
          Submit
     </button>
 </div>
-
     </form>
-
+    </form>
+    </section>
 @endsection

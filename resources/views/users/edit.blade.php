@@ -8,6 +8,15 @@
             @method('PUT')
 
             <div class="form-group">
+                <label>ID:</label>
+                <div class="form-control" style="border: 1px solid #ccc; padding: 10px;">
+                    {{ $user->id }}
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $user->name) }}">
                 @error('name')
@@ -31,7 +40,7 @@
                 @enderror
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <button type="submit" class="btn btn-primary">Update Profile</button>
             </div>
         </form>

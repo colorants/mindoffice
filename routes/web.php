@@ -16,11 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Home Routes
-Route::get('/', [VideoController::class, 'index'])->name('videos.index');
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/search', [VideoController::class, 'search'])->name('videos.search');
+
 
 // User Profile Routes
 Route::get('/users', [ProfilePageController::class, 'display_all'])->name('users.display_all'); // Display all users
-Route::get('/profile', [ProfilePageController::class, 'indexdi'])->name('users.index'); // Define the route for user profiles
+Route::get('/profile', [ProfilePageController::class, 'index'])->name('users.index'); // Define the route for user profiles
 Route::put('/profile/{user}', [ProfilePageController::class, 'update'])->name('users.update');
 Route::get('/profile/{user}/edit', [ProfilePageController::class, 'edit'])->name('users.edit');
 
@@ -33,7 +37,7 @@ Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.sh
 Route::get('/videos/{video}/edit', [VideoController::class, 'edit'])->name('videos.edit'); // Edit Video Form
 Route::put('/videos/{video}', [VideoController::class, 'update'])->name('videos.update'); // Update Video
 Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('videos.destroy'); // Delete Video
-Route::post('/videos/{video}/favorite', [VideoController::class, 'toggleFavorite'])->name('videos.favorite.toggle'); // Toggle Video Favorite Status
+Route::post('/videos/{video}', [VideoController::class, 'toggleFavorite'])->name('videos.favorite.toggle'); // Toggle Video Favorite Status
 
 // Video Category Routes
 Route::get('/categories', [VideoCategoryController::class, 'index'])->name('categories.index');

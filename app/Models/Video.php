@@ -20,10 +20,6 @@ class Video extends Model
 
     ];
 
-    public static function find(mixed $id)
-    {
-    }
-
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -35,7 +31,7 @@ class Video extends Model
     }
 
     // Video.php model
-    public function favoritedByUsers()
+    public function favoritedByUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_video', 'video_id', 'user_id')->withTimestamps();
     }

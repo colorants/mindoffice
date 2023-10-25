@@ -16,7 +16,7 @@ class VideoController extends Controller
 
 public function __construct()
 {
-    $this->middleware('auth')->except(['index', 'show']);
+    $this->middleware('auth')->except(['index',]);
 }
 
     public function index()
@@ -46,10 +46,16 @@ public function __construct()
      */
     public function create()
     {
-        return view ('videos.create' , [
-            'video' => new Video(), // Create a new instance of the Video model to be used in the form
-            'categories' => Category::all(),
-        ]);
+        $user = Auth::user();
+        $favoriteVideoCount = $user->favoriteVideos()->count();
+
+        if ($favoriteVideoCount >= 3) {
+            return view ('videos.create' , [
+                'video' => new Video(), // Create a new instance of the Video model to be used in the form
+                'categories' => Category::all(),
+            ]);
+        }
+        else        return redirect()->route('videos.index')->with('error', 'You need to favorite at least 3 videos before uploading.')->with('showPopup', true);
     }
 
     /**
@@ -57,7 +63,10 @@ public function __construct()
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $favoriteVideoCount = $user->favoriteVideos()->count();
 
+        if ($favoriteVideoCount >= 3) {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -81,7 +90,10 @@ public function __construct()
 
         $video->save();
 
-        return redirect()->route('videos.index');
+            return redirect()->route('videos.index')->with('success', 'Video uploaded successfully!');
+        } else {
+            return redirect()->route('videos.index')->with('error', 'You need to favorite at least 3 videos before uploading.');
+        }
     }
 
 
@@ -171,8 +183,21 @@ public function __construct()
             $message = 'Video added to favorites.';
         }
 
-        return response()->json(['message' => $message]);
+        return redirect()->route('videos.index', $video)->with('success', $message);
+
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $results = Video::where('title', 'like', '%'.$query.'%')->get();
+        return view('search_results', ['results' => $results], ['query' => $query]);
+
+    }
+
+
+
+
 
 
 }

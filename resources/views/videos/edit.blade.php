@@ -6,7 +6,6 @@
 
     @csrf
 @method('PUT')
-        <!--send user id with submit -->
 
         <div class="name is-flex justify-content-center">
 

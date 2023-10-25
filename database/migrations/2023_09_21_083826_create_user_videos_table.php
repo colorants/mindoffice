@@ -12,14 +12,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_video', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('video_id');
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');
 
-            $table->primary(['user_id', 'video_id']); // Define a composite primary key
         });
     }
 

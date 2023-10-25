@@ -10,25 +10,38 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{{ url('/') }}/resources/app/css/app.css">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
+
+@if(session('showPopup'))
+    <script>
+        alert('You need to favorite at least 3 videos before uploading.' +
+            'You currently have ');
+    </script>
+@endif
+
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container mt-2">
-                <div class="navbar-brand"></div>
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                <di class="navbar-brand">
+                    <img alt="Blips logo" src="{{asset('storage/Blips_Logo.png')}}">
+
+                </di>
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -40,11 +53,13 @@
                             Videos
                         </a>
 
+                        @auth()
+                            @csrf
+
                         <a class="navbar-item"  style="text-decoration:none;" href="{{ route('videos.create') }}">
                             Upload
                         </a>
-                        @auth()
-                            @csrf
+                            @if(auth()->user()->is_admin == 1)
                         <a class="navbar-item"  style="text-decoration:none;" href="{{ route('categories.index') }}">
                             Categories
                         </a>
@@ -57,6 +72,7 @@
                             <a class="navbar-item"  style="text-decoration:none;" href="{{ route('users.display_all') }}">
                                All Users
                             </a>
+                        @endif
                         @endauth
                     </ul>
 
@@ -108,13 +124,4 @@
     </div>
 </body>
 </html>
-<script src="js/app.js" defer>
-    $('.favorite-button').click(function(e) {
-        e.preventDefault();
-        var videoId = $(this).data('video-id');
-        $.post(`/videos/${videoId}/favorite`, function(response) {
-            alert(response.message);
-        });
-    });
 
-</script>
