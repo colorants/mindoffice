@@ -32,14 +32,6 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="image">Profile Picture:</label>
-                <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                @error('image')
-                <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
             <div class="form-group mt-3">
                 <button type="submit" class="btn btn-primary">Update Profile</button>
             </div>

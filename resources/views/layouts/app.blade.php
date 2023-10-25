@@ -11,11 +11,12 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="css/app.css"> <!-- Your custom CSS file should come last -->
     <link rel="stylesheet" href="{{ url('/') }}/resources/app/css/app.css">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -27,16 +28,18 @@
 
 @if(session('showPopup'))
     <script>
-        alert('You need to favorite at least 3 videos before uploading.' +
-            'You currently have ');
+        alert('You need to favorite at least 3 videos before uploading, you currently have : {{ count(Auth::user()->favoriteVideos) }}'
+            );
     </script>
 @endif
 
 
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container mt-2">
-                <di class="navbar-brand">
+
+
+        <nav id="navbar" class="navbar navbar-expand-md shadow-sm">
+            <div class="container">
+                <di class="navbar-brand mr-3">
                     <img alt="Blips logo" src="{{asset('storage/Blips_Logo.png')}}">
 
                 </di>

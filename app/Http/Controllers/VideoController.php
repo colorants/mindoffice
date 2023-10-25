@@ -14,21 +14,19 @@ class VideoController extends Controller
      */
 
 
-public function __construct()
-{
-    $this->middleware('auth')->except(['index',]);
-}
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index',]);
+    }
 
     public function index()
     {
         // Check if there is an authenticated user
         if (Auth::check()) {
-            // If the user is an admin, fetch all videos (both active and inactive)
-            // If the user is not an admin, fetch only active videos
+
             $user = Auth::user();
             $videos = $user->is_admin ? Video::all() : Video::where('active', true)->get();
         } else {
-            // If there is no authenticated user, fetch only active videos
             $videos = Video::where('active', true)->get();
         }
 
@@ -67,28 +65,28 @@ public function __construct()
         $favoriteVideoCount = $user->favoriteVideos()->count();
 
         if ($favoriteVideoCount >= 3) {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional: Validate image upload
-        ]);
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'category_id' => 'required|exists:categories,id',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional: Validate image upload
+            ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads/videos', 'public');
-        } else {
-            $imagePath = null; // or set a default image path if no image is uploaded
-        }
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('uploads/videos', 'public');
+            } else {
+                $imagePath = null; // or set a default image path if no image is uploaded
+            }
 
-        $video = new Video();
-        $video->user_id = Auth::user()->id;
-        $video->title = $request->input('title');
-        $video->description = $request->input('description');
-        $video->category_id = $request->input('category_id');
-        $video->image = $imagePath; // Store the image path
+            $video = new Video();
+            $video->user_id = Auth::user()->id;
+            $video->title = $request->input('title');
+            $video->description = $request->input('description');
+            $video->category_id = $request->input('category_id');
+            $video->image = $imagePath; // Store the image path
 
-        $video->save();
+            $video->save();
 
             return redirect()->route('videos.index')->with('success', 'Video uploaded successfully!');
         } else {
@@ -158,8 +156,8 @@ public function __construct()
      */
     public function destroy(Video $video)
     {
-       $video->delete();
-         return redirect()->route('videos.index');
+        $video->delete();
+        return redirect()->route('videos.index');
     }
 
     public function active(Video $video)
@@ -190,10 +188,20 @@ public function __construct()
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $results = Video::where('title', 'like', '%'.$query.'%')->get();
-        return view('search_results', ['results' => $results], ['query' => $query]);
 
+        $user = auth()->user();
+
+        if ($user && $user->is_admin) {
+
+            $results = Video::where('title', 'like', '%' . $query . '%')->get();
+        } else {
+
+            $results = Video::where('title', 'like', '%' . $query . '%')->where('active', true)->get();
+        }
+
+        return view('search_results', ['results' => $results, 'query' => $query]);
     }
+
 
 
 

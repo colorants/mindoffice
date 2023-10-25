@@ -2,17 +2,82 @@
     border: 2px solid red;
 }
 
+body {
+    background : #C2DFE3;
+    max-width: 100%;
+}
+
+
 section {
-    background: #5C6B73
+
+    background: #C2DFE3
 }
 
 main {
-    background : #5C6B73
+    background : #C2DFE3
 }
 html {
-    background : #5C6B73
+    background : #C2DFE3;
+    margin : 0;
 }
 
-nav {
-    background : green
+.container.mt-2 {
+    margin-left: 100px !important;
+    left: 55px !important;
+}
+
+.navbar {
+    background: #5C6B73;
+}
+
+a.navbar-item:hover {
+    background: #9DB4C0;
+    border-radius: 5px;
+    color: white;
+}
+
+.navbar img {
+    width: 10vw !important;
+    height: 7vh !important;
+    margin-bottom: 1.5vh !important;
+}
+
+.column.box {
+    background : #253237
+}
+#card-body
+{
+    background : red
+}
+
+h2 {
+    color:white;
+}
+
+
+.container.mt-2 {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+strong {
+    color:white;
+}
+
+
+p{
+    color:white;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }

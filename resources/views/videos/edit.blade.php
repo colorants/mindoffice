@@ -7,6 +7,7 @@
     @csrf
 @method('PUT')
 
+        <div class="box" style="width: 25vw;margin:auto">
         <div class="name is-flex justify-content-center">
 
             <label for="title" class="form-label">
@@ -22,7 +23,7 @@
             @enderror
         </div>
 
-        <div class="name is-flex justify-content-center">
+        <div class="name is-flex justify-content-center" >
             <label for="description" class="form-label">
                 Description
                 <input type= "text" name ="description" class = "form-control @error('description')  is-invalid @enderror"  value="{{ old('description', $video->description) }}">
@@ -38,7 +39,7 @@
         <div class="name is-flex justify-content-center">
             <label for="category_id" class="form-label">
                 Category
-                <<select name="category_id" class="form-control">
+                <select name="category_id" class="form-control">
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ old('category_id', $video->category_id) == $category->id ? 'selected' : '' }}>
                             {{ $category->title }}
@@ -55,22 +56,27 @@
             @enderror
         </div>
 
-<div class="field-group">
-        <div class="is-field btn is-flex is-align-items-flex-start is-inline">
-            <button type="submit" class="btn btn-warning "> Submit </button>
-        </div>
 
 
+<div class="field-group is-flex justify-content-between">
             <div class="is-field btn is-flex is-align-items-flex-end is-inline">
                 <a href="{{ route('videos.index') }}" class="btn btn-primary">Back</a>
             </div>
 
-    <div class="form-group">
+    <div class="form-group m-3">
         <label for="active">Active:</label>
         <input type="checkbox" name="active" {{ $video->active ? 'checked' : '' }}>
     </div>
 
+
+    <div class="is-field btn is-flex is-align-items-flex-start is-inline">
+        <button type="submit" class="btn btn-warning "> Submit </button>
+    </div>
+
+
+
 </div>
+        </div>
 
     </form>
 

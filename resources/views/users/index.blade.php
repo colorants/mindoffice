@@ -26,7 +26,7 @@
             <h1 class="is-flex is-center ml-2">  Favorites ({{ count(Auth::user()->favoriteVideos) }})</h1>
 
 
-             <div class="columns mt-3 is-multiline ">
+             <div class="columns ml-3 mt-3 is-multiline ">
                      @foreach(Auth::user()->favoriteVideos as $favorite)
                     <div class="column box m-1 is-one-quarter overflow-hidden">
                         <div class="is-flex justify-content-center mb-2" >
@@ -42,6 +42,7 @@
                             <p class="is-flex ">{{ $favorite->category->title ?? 'Uncategorized' }}</p>
                             <p class="is-flex ">{{ $favorite->user->name ?? 'Uncategorized' }}</p>
                         </div>
+                        <button > <a class="button is-info is-small text-decoration-none" href="/videos/{{$favorite->id}}">Info</a></button>
                     </div>
 
                  @endforeach

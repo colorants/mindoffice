@@ -1,14 +1,10 @@
 @extends ('layouts.app')
 
 @section('content')
+    <h1 class="m-3">Search Results for "{{$query}}"</h1>
 
- <h1 class="m-3">Search Results for "{{$query}}"</h1>
-
-@foreach($results as $video)
-    <div class="search-result">
-        <div class="columns is-multiline is-centered">
-
-
+        <div class="row">
+            @foreach($results as $video)
                 <div class="column box m-1 is-one-quarter overflow-hidden">
                     <div class="is-flex justify-content-center">
                         @if($video->image)
@@ -65,7 +61,5 @@
             @endforeach
 
         </div>
-    </div>
-
-
-    @endsection
+        </section>
+@endsection

@@ -37,6 +37,7 @@ Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.sh
 Route::get('/videos/{video}/edit', [VideoController::class, 'edit'])->name('videos.edit'); // Edit Video Form
 Route::put('/videos/{video}', [VideoController::class, 'update'])->name('videos.update'); // Update Video
 Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('videos.destroy'); // Delete Video
+Route::put('/videos/{video}', [VideoController::class, 'toggleActive'])->name('videos.active.toggle'); // Toggle Video Active Status
 Route::post('/videos/{video}', [VideoController::class, 'toggleFavorite'])->name('videos.favorite.toggle'); // Toggle Video Favorite Status
 
 // Video Category Routes

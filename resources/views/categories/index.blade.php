@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <h1 class="is-flex is-center"> Homepage </h1>
+    <h1 class="is-flex is-center m-3"> Categories </h1>
     <section>
         <div class="columns is-multiline is-centered" >
 
