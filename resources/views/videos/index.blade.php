@@ -1,21 +1,44 @@
-@extends ('layouts.app')
+@extends('layouts.app')
 
 @section('content')
-    <section>
-        <div>
+    <section class="container mt-5">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-3">
+                <form action="{{ route('videos.index') }}" method="GET" class="form-inline">
+                    <div class="form-group mr-2 mb-2">
+                        <input type="text" name="query" class="form-control" placeholder="Search videos..." value="{{ $query }}">
+                    </div>
+                    <div class="form-group mr-2">
+                        <select name="sort_by" class="form-control">
+                            <option value="created_at">Created at</option>
+                            <option value="title">Title</option>
 
-            <div class=" m-3 is-flex justify-content-between">
+                        </select>
+                    </div>
 
-                <h1> Homepage </h1>
-
-                <form action="{{ route('videos.search') }}" method="GET">
-                    <input type="text" name="query" placeholder="Search videos...">
-                    <button type="submit">Search</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
-
             </div>
         </div>
 
+
+        @if($sort_by)
+            <div class="alert alert-info mb-4 is-flex">
+                <div>
+                    @if($query)
+                        Showing results for: <strong>{{ $query }}</strong>
+                    @endif
+                </div>
+
+                <div class="is-flex justify-items-end">
+                    @if($sort_by && $query)
+                        , Sorted by:  <strong>{{ ucfirst($sort_by) }}</strong>
+                    @elseif($sort_by)
+                        Sorting by:  <strong>{{ ucfirst($sort_by) }}</strong>
+                    @endif
+                </div>
+            </div>
+        @endif
 
 
 

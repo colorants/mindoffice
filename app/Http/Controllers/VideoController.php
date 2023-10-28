@@ -9,25 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-
     public function __construct()
     {
         $this->middleware('auth')->except(['index',]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Check if there is an authenticated user
-        if (Auth::check()) {
+        $sortBy = $request->input('sort_by', 'created_at');
+        $query = $request->input('query', '');
 
+        if (Auth::check()) {
             $user = Auth::user();
-            $videos = $user->is_admin ? Video::all() : Video::where('active', true)->get();
+            $videos = $user->is_admin ? Video::orderBy($sortBy)->where('title', 'like', '%' . $query . '%')->get() :
+                Video::orderBy($sortBy)->where('active', true)->where('title', 'like', '%' . $query . '%')->get();
         } else {
-            $videos = Video::where('active', true)->get();
+            $videos = Video::orderBy($sortBy)->where('active', true)->where('title', 'like', '%' . $query . '%')->get();
         }
 
         $categories = Category::all();
@@ -35,30 +32,27 @@ class VideoController extends Controller
         return view('videos.index', [
             'videos' => $videos,
             'categories' => $categories,
+            'query' => $query,
+            'sort_by' => $sortBy,
         ]);
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $user = Auth::user();
         $favoriteVideoCount = $user->favoriteVideos()->count();
 
         if ($favoriteVideoCount >= 3) {
-            return view ('videos.create' , [
-                'video' => new Video(), // Create a new instance of the Video model to be used in the form
+            return view('videos.create', [
+                'video' => new Video(),
                 'categories' => Category::all(),
             ]);
+        } else {
+            return redirect()->route('videos.index')->with('error', 'You need to favorite at least 3 videos before uploading.')->with('showPopup', true);
         }
-        else        return redirect()->route('videos.index')->with('error', 'You need to favorite at least 3 videos before uploading.')->with('showPopup', true);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -69,14 +63,13 @@ class VideoController extends Controller
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
                 'category_id' => 'required|exists:categories,id',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional: Validate image upload
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
-            // Handle image upload
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('uploads/videos', 'public');
             } else {
-                $imagePath = null; // or set a default image path if no image is uploaded
+                $imagePath = null;
             }
 
             $video = new Video();
@@ -84,7 +77,7 @@ class VideoController extends Controller
             $video->title = $request->input('title');
             $video->description = $request->input('description');
             $video->category_id = $request->input('category_id');
-            $video->image = $imagePath; // Store the image path
+            $video->image = $imagePath;
 
             $video->save();
 
@@ -94,11 +87,6 @@ class VideoController extends Controller
         }
     }
 
-
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Video $video)
     {
         return view('videos.show', [
@@ -107,9 +95,6 @@ class VideoController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Video $video)
     {
         $categories = Category::all();
@@ -119,15 +104,8 @@ class VideoController extends Controller
         ]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Video $video)
     {
-        // Validate request and update other fields (title, description, category_id)
-
-        // Handle image update if a new image is provided
         if ($request->hasFile('image')) {
             $newImagePath = $request->file('image')->store('uploads/videos', 'public');
             $video->image = $newImagePath;
@@ -136,7 +114,7 @@ class VideoController extends Controller
         $video->title = $request->input('title');
         $video->description = $request->input('description');
         $video->category_id = $request->input('category_id');
-        $video->active = $request->has('active'); // Set active status based on checkbox value
+        $video->active = $request->has('active');
         $video->save();
 
         return redirect()->route('videos.index');
@@ -150,10 +128,6 @@ class VideoController extends Controller
         return redirect()->route('videos.index');
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Video $video)
     {
         $video->delete();
@@ -174,38 +148,15 @@ class VideoController extends Controller
         $user = auth()->user();
 
         if ($user->favoriteVideos()->where('video_id', $video->id)->exists()) {
-            $user->favoriteVideos()->detach($video->id); // Remove from favorites
+            $user->favoriteVideos()->detach($video->id);
             $message = 'Video removed from favorites.';
         } else {
-            $user->favoriteVideos()->attach($video->id); // Add to favorites
+            $user->favoriteVideos()->attach($video->id);
             $message = 'Video added to favorites.';
         }
 
         return redirect()->route('videos.index', $video)->with('success', $message);
-
     }
-
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-        $user = auth()->user();
-
-        if ($user && $user->is_admin) {
-
-            $results = Video::where('title', 'like', '%' . $query . '%')->get();
-        } else {
-
-            $results = Video::where('title', 'like', '%' . $query . '%')->where('active', true)->get();
-        }
-
-        return view('search_results', ['results' => $results, 'query' => $query]);
-    }
-
-
-
-
-
-
-
 }
+
+

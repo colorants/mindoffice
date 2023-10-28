@@ -2,7 +2,7 @@
 
 @section('content')
     <section>
-        <h1 class="is-flex is-center ml-2"> All Users </h1>
+        <h1 class="is-flex is-center m-3"> All Users </h1>
         <div class="row m-1">
             @foreach($users as $user)
                 <div class="col-md-3">
