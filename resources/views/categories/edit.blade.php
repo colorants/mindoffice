@@ -6,13 +6,12 @@
 
         @csrf
         @method('PUT')
-        <!--send user id with submit -->
 
         <div class="name is-flex justify-content-center">
 
             <label for="title" class="form-label">
                 Title (max 20 characters)
-                <input type= "text" maxlength="25" name = "title" class = "form-control @error('title')  is-invalid @enderror" value="{{old('title')}}">
+                <input type= "text" maxlength="25" name = "title" class = "form-control @error('title')  is-invalid @enderror" value="{{old('title' ,$category->title)}}">
             </label>
 
             @error('title')
@@ -25,12 +24,11 @@
 
 
 
-        <div class="is-flex justify-content-center">
-            <button type="submit">
-              <Create></Create>
+        <div>
+            <button type="submit" class="button">
+                Submit
             </button>
         </div>
-
     </form>
 
 @endsection

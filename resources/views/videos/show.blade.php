@@ -8,13 +8,13 @@
                         <p>{{ $video->description }}</p>
                         @auth()
                             @csrf
-                        <p>{{ $video->created_at}}</p>
-                        <p>{{ $video->updated_at}}</p>
+                        <p> Created at {{ $video->created_at}}</p>
                         @endauth
-                        <a href="{{ route('videos.index') }}" class="btn btn-primary">Back</a>
-            </div>
-        </div>
+                    <a href="javascript:history.back()" class="btn btn-primary">Back</a>
+
                 </div>
+        </div>
+
 
 
 

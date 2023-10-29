@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProfilePageController extends Controller
+class UserController extends Controller
 {
 
     public function __construct()
@@ -34,14 +34,40 @@ class ProfilePageController extends Controller
 
     public function edit(User $user)
     {
-        // Check if the authenticated user matches the user being edited
-        if (auth()->user()->id !== $user->id) {
+        if (auth()->user()->is_admin || auth()->user()->id === $user->id) {
+            return view('users.edit', compact('user'));
+        } else {
             return redirect()->route('users.index')->with('error', 'You are not authorized to edit this profile.');
         }
-
-        // Load the user's profile for editing
-        return view('users.edit', compact('user'));
     }
+
+    public function makeAdmin(Request $request, User $user)
+    {
+        if (auth()->user()->id === $user->id) {
+            // User is updating their own profile, redirect to users.index
+            return redirect()->route('users.index')->with('success', 'You are now an admin.');
+        }
+
+        $user->is_admin = true;
+        $user->save();
+
+        return redirect()->route('users.display_all')->with('success', 'User is now an admin.');
+    }
+
+    public function removeAdmin(Request $request, User $user)
+    {
+
+        if (auth()->user()->id === $user->id) {
+            return redirect()->route('users.index')->with('success', 'Admin status removed.');
+        }
+
+        $user->is_admin = false;
+        $user->save();
+
+        return redirect()->route('users.display_all')->with('success', 'Admin status removed.');
+    }
+
+
 
     public function update(Request $request, User $user)
     {

@@ -42,7 +42,7 @@
                             <p class="is-flex ">{{ $favorite->category->title ?? 'Uncategorized' }}</p>
                             <p class="is-flex ">{{ $favorite->user->name ?? 'Uncategorized' }}</p>
                         </div>
-                        <button > <a class="button is-info is-small text-decoration-none" href="/videos/{{$favorite->id}}">Info</a></button>
+    <a class="button is-info is-small text-decoration-none" href="/videos/{{$favorite->id}}">Info</a>
                     </div>
 
                  @endforeach

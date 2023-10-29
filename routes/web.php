@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfilePageController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCategoryController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -23,10 +23,13 @@ Route::get('/search', [VideoController::class, 'search'])->name('videos.search')
 
 
 // User Profile Routes
-Route::get('/users', [ProfilePageController::class, 'display_all'])->name('users.display_all'); // Display all users
-Route::get('/profile', [ProfilePageController::class, 'index'])->name('users.index'); // Define the route for user profiles
-Route::put('/profile/{user}', [ProfilePageController::class, 'update'])->name('users.update');
-Route::get('/profile/{user}/edit', [ProfilePageController::class, 'edit'])->name('users.edit');
+Route::get('/users', [UserController::class, 'display_all'])->name('users.display_all'); // Display all users
+Route::get('/profile', [UserController::class, 'index'])->name('users.index'); // Define the route for user profiles
+Route::put('/profile/{user}', [UserController::class, 'update'])->name('users.update');
+Route::get('/profile/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::post('/users/{user}/make-admin', [UserController::class, 'makeAdmin'])->name('users.make-admin');
+Route::post('/users/{user}/remove-admin', [UserController::class, 'removeAdmin'])->name('users.remove-admin');
+
 
 
 // Video Routes

@@ -1,44 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container mt-5">
-        <div class="row justify-content-center mb-4">
-            <div class="col-md-3">
-                <form action="{{ route('videos.index') }}" method="GET" class="form-inline">
-                    <div class="form-group mr-2 mb-2">
-                        <input type="text" name="query" class="form-control" placeholder="Search videos..." value="{{ $query }}">
-                    </div>
-                    <div class="form-group mr-2">
-                        <select name="sort_by" class="form-control">
-                            <option value="created_at">Created at</option>
-                            <option value="title">Title</option>
-
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        </div>
+    <section>
 
 
-        @if($sort_by)
-            <div class="alert alert-info mb-4 is-flex">
+            <form action="{{ route('videos.index') }}" method="GET" class=" d-flex align-items-center form-inline w-100">
+                <div class="form-group ml-2 mr-2 mb-2 is-flex ">
+                    <input type="text" name="query" class="form-control w-100" placeholder="Search videos..." value="{{ $query }}">
+                </div>
+
+                <div class="form-group mr-2 mb-2">
+                    <select name="sort_by" class="form-control">
+                        <option value="created_at" {{ $sort_by == 'created_at' ? 'selected' : '' }}>Created at</option>
+                        <option value="title" {{ $sort_by == 'title' ? 'selected' : '' }}>Title</option>
+                    </select>
+                </div>
+
+                <div class="form-group mr-2 mb-2">
+                    <select name="sort_order" class="form-control">
+                        <option value="desc" {{ $sort_order == 'desc' ? 'selected' : '' }}>Descending</option>
+                        <option value="asc" {{ $sort_order == 'asc' ? 'selected' : '' }}>Ascending</option>
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary mb-2 ml-2">Search</button>
+            </form>
+
+
+
+
+    @if(!$sort_by || !$sort_order || $query)
+            <div class="alert alert-info ml-2 w-50 mb-4 is-flex">
                 <div>
                     @if($query)
-                        Showing results for: <strong>{{ $query }}</strong>
+                        Showing results for : <strong>{{ $query }}</strong>
                     @endif
                 </div>
 
                 <div class="is-flex justify-items-end">
                     @if($sort_by && $query)
-                        , Sorted by:  <strong>{{ ucfirst($sort_by) }}</strong>
+                        , Sorted by : ⠀ <strong>{{ ucfirst($sort_by) }}</strong>⠀
                     @elseif($sort_by)
-                        Sorting by:  <strong>{{ ucfirst($sort_by) }}</strong>
+                        Sorting by :⠀ <strong>{{ ucfirst($sort_by) }}</strong>⠀
+                    @endif
+                </div>
+
+                <div class="is-flex justify-items-end">
+                    @if($sort_by && $query && $sort_order)
+                        , Order :   ⠀<strong>{{ ucfirst($sort_order) }}</strong>⠀
+                    @elseif($sort_by)
+                       Order :  ⠀<strong>{{ ucfirst($sort_order) }}</strong>⠀
                     @endif
                 </div>
             </div>
         @endif
+
 
 
 

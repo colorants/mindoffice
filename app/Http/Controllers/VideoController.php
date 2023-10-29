@@ -17,15 +17,19 @@ class VideoController extends Controller
     public function index(Request $request)
     {
         $sortBy = $request->input('sort_by', 'created_at');
+        $sortOrder = $request->input('sort_order', 'desc');
         $query = $request->input('query', '');
 
         if (Auth::check()) {
             $user = Auth::user();
-            $videos = $user->is_admin ? Video::orderBy($sortBy)->where('title', 'like', '%' . $query . '%')->get() :
-                Video::orderBy($sortBy)->where('active', true)->where('title', 'like', '%' . $query . '%')->get();
+            $videosQuery = $user->is_admin ? Video::query() : Video::where('active', true);
         } else {
-            $videos = Video::orderBy($sortBy)->where('active', true)->where('title', 'like', '%' . $query . '%')->get();
+            $videosQuery = Video::where('active', true);
         }
+
+        $videos = $videosQuery->where('title', 'like', '%' . $query . '%')
+            ->orderBy($sortBy, $sortOrder)
+            ->get();
 
         $categories = Category::all();
 
@@ -34,8 +38,10 @@ class VideoController extends Controller
             'categories' => $categories,
             'query' => $query,
             'sort_by' => $sortBy,
+            'sort_order' => $sortOrder,
         ]);
     }
+
 
 
     public function create()
@@ -43,7 +49,7 @@ class VideoController extends Controller
         $user = Auth::user();
         $favoriteVideoCount = $user->favoriteVideos()->count();
 
-        if ($favoriteVideoCount >= 3) {
+        if ($favoriteVideoCount >= 3 || $user->is_admin) {
             return view('videos.create', [
                 'video' => new Video(),
                 'categories' => Category::all(),
@@ -58,7 +64,7 @@ class VideoController extends Controller
         $user = Auth::user();
         $favoriteVideoCount = $user->favoriteVideos()->count();
 
-        if ($favoriteVideoCount >= 3) {
+        if ($favoriteVideoCount >= 3 || $user->is_admin) {
             $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',

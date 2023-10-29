@@ -8,7 +8,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}
+        @if(auth()->check())
+            @if(auth()->user()->is_admin)
+                {{auth()->user()->name}}
+            @else
+                {{auth()->user()->name}}
+            @endif
+        @endif
+
+
+
+
+    </title>
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="css/app.css"> <!-- Your custom CSS file should come last -->
