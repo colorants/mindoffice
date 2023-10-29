@@ -121,7 +121,36 @@ class VideoController extends Controller
         if (Auth::user()->id !== $video->user_id) {
             return redirect()->route('videos.index')->with('error', 'You do not have permission to update this video.');
         }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Check if a new image file is uploaded
+        if ($request->hasFile('image')) {
+            // Delete the existing image if there is one
+            if ($video->image) {
+                Storage::disk('public')->delete($video->image);
+            }
+
+            // Store the new image
+            $imagePath = $request->file('image')->store('uploads/videos', 'public');
+            $video->image = $imagePath;
         }
+
+        // Update other fields
+        $video->title = $request->input('title');
+        $video->description = $request->input('description');
+        $video->category_id = $request->input('category_id');
+        $video->active = $request->has('active');
+        $video->save();
+
+        // Redirect to videos.index after successful update
+        return redirect()->route('videos.index')->with('success', 'Video updated successfully!');
+    }
 
 
 
