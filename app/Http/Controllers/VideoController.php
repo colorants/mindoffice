@@ -103,6 +103,11 @@ class VideoController extends Controller
 
     public function edit(Video $video)
     {
+        // Check if the authenticated user is the owner of the video
+        if (Auth::user()->id !== $video->user_id) {
+            return redirect()->route('videos.index')->with('error', 'You do not have permission to edit this video.');
+        }
+
         $categories = Category::all();
         return view('videos.edit', [
             'video' => $video,
@@ -112,19 +117,13 @@ class VideoController extends Controller
 
     public function update(Request $request, Video $video)
     {
-        if ($request->hasFile('image')) {
-            $newImagePath = $request->file('image')->store('uploads/videos', 'public');
-            $video->image = $newImagePath;
+        // Check if the authenticated user is the owner of the video
+        if (Auth::user()->id !== $video->user_id) {
+            return redirect()->route('videos.index')->with('error', 'You do not have permission to update this video.');
+        }
         }
 
-        $video->title = $request->input('title');
-        $video->description = $request->input('description');
-        $video->category_id = $request->input('category_id');
-        $video->active = $request->has('active');
-        $video->save();
 
-        return redirect()->route('videos.index');
-    }
 
     public function toggleActive(Request $request, Video $video)
     {

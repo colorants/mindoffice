@@ -76,6 +76,9 @@
                     <div class="level ml-1 mr-1 mb-0">
                         <p class="is-flex ">{{ $video->category->title ?? 'Uncategorized' }}</p>
                         <p class="is-flex ">{{ $video->user->name ?? 'Uncategorized' }}</p>
+                        @if(Auth::user()->is_admin)
+                            <p class="is-flex ">Is Active : {{$video->active}}</p>
+                            @endif
                     </div>
 
                     <div class="buttons is-centered ">
