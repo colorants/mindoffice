@@ -31,7 +31,7 @@
 
 
     @if(!$sort_by || !$sort_order || $query)
-            <div class="alert alert-info ml-2 w-50 mb-4 is-flex">
+            <div class="alert alert-info  ml-2 w-50 mb-4 is-flex">
                 <div>
                     @if($query)
                         Showing results for : <strong>{{ $query }}</strong>
@@ -60,7 +60,7 @@
 
 
 
-        <div class="columns is-multiline is-centered">
+        <div class="columns is-multiline is-centered m-2">
 
             @foreach($videos as $video)
 
