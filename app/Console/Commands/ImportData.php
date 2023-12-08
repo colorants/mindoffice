@@ -182,6 +182,8 @@ class ImportData extends Command
             $stmt->bindParam(3, $btw);
             $stmt->bindParam(4, $country_id);
 
+            $stmt->bindParam(5, $id);
+
             // Execute the statement
             $stmt->execute();
         }
