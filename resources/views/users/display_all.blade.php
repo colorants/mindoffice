@@ -10,23 +10,20 @@
                     <div class="box m-1 {{ $user->is_admin ? 'admin-border' : '' }}">
                         <ul>
                             <li>Name: {{ $user->name }}</li>
+{{--                            <li>Company:{{ $user->company_id->name}}</li>--}}
                             <li>Email: <strong>{{ $user->email }}</strong></li>
-                            <li>Admin: {{ $user->is_admin }}</li>
+                            <li>Admin:
+                                @if ($user->is_admin)
+                                    <strong>Yes</strong>
+                                @else
+                                    <strong>No</strong>
+                                @endif
+                            </li>
 
-                            @if ($user->is_admin && $user->id !== auth()->user()->id)
-                                <form action="{{ route('users.remove-admin', $user->id) }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <button type="submit" class="button is-danger is-small m-2">Remove Admin</button>
-                                </form>
-                            @endif
-
-                            @if(!$user->is_admin && $user->id !== auth()->user()->id)
-                                <form action="{{ route('users.make-admin', $user->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="button is-success is-small m-2">Make Admin</button>
-                                </form>
-                            @endif
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="button is-danger is-small " type="submit">Delete</button>
                         </ul>
                     </div>
                 </div>

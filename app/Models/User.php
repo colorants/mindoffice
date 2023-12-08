@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -19,10 +20,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'position',
         'email',
+        'house-phone',
+        'mobile-phone',
+        'notes',
         'password',
         'is_admin',
-        'profile-picture'
     ];
 
     /**
@@ -46,9 +51,9 @@ class User extends Authenticatable
     ];
 
     // User.php model
-    public function favoriteVideos()
+    public function Company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Video::class, 'user_video', 'user_id', 'video_id')->withTimestamps();
+        return $this->belongsTo(Company::class);
     }
 
 

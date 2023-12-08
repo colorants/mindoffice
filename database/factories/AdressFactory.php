@@ -4,13 +4,13 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\User;
-use App\Models\Video;
+use App\Models\Adress;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class VideoFactory extends Factory
+class AdressFactory extends Factory
 {
-    protected $model = Video::class;
+    protected $model = Adress::class;
 
     public function definition(): array
     {
@@ -23,7 +23,6 @@ class VideoFactory extends Factory
             'active' => $this->faker->boolean(),
 
             'user_id' => User::factory(),
-            'category_id' => Category::factory(),
         ];
     }
 }

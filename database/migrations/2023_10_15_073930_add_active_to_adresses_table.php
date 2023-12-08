@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('videos', function (Blueprint $table) {
+        Schema::table('adresses', function (Blueprint $table) {
             $table->boolean('active')->default(true);
         });
     }
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('videos', function (Blueprint $table) {
+        Schema::table('adresses', function (Blueprint $table) {
             //
         });
     }

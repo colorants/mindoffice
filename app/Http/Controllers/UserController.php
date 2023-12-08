@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,15 +12,17 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show', 'display_all']);
     }
 
     public function display_all()
 
     {
+        $companies = Company::all();
         $users = User::all();
         return view('users.display_all', [
             'users' => $users,
+            'companies' => $companies,
         ]);
     }
 
@@ -31,6 +34,13 @@ class UserController extends Controller
             'user' => $user,
         ]);
     }
+
+public function destroy(User $user)
+{
+    $user->delete();
+
+    return redirect()->route('users.display_all')->with('success', 'User deleted successfully.');
+}
 
     public function edit(User $user)
     {
@@ -79,7 +89,6 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional: Validate image upload
         ]);
 
         // Handle image upload
@@ -93,19 +102,10 @@ class UserController extends Controller
         $user->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'image' => $imagePath, // Store the image path
-            // Add other profile fields as needed
         ]);
 
         return redirect()->route('users.index')->with('success', 'Profile updated successfully.');
     }
 
-    public function favorites (User $user)
-    {
-        $videos = $user->favoritedVideos();
-        return view('users.index', [
-            'videos' => $videos,
-        ]);
-    }
 }
 

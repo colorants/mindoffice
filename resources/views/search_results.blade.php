@@ -24,14 +24,14 @@
                         @auth()
                             @if(Auth::user()->id === $video->user_id || Auth::user()->is_admin == 1)
                                 @csrf
-                                <a class="button is-success is-small text-decoration-none" href="{{ route('videos.edit', $video->id) }}">Edit</a>
+                                <a class="button is-success is-small text-decoration-none" href="{{ route('adresses.edit', $video->id) }}">Edit</a>
                             @endauth
                         @endif
 
                         <a class="button is-info is-small text-decoration-none" href="/videos/{{$video->id}}">Info</a>
                         @auth()
                             @if(Auth::user()->id === $video->user_id || Auth::user()->is_admin == 1)
-                                <form action="{{ route('videos.destroy', $video->id) }}" method="POST">
+                                <form action="{{ route('adresses.destroy', $video->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="button is-danger is-small " type="submit">Delete</button>
@@ -41,14 +41,14 @@
                                 </form>
                                 @if(auth()->check())
                                     @if (Auth::user()->favoriteVideos->doesntcontain($video))
-                                        <form action="{{ route('videos.favorite.toggle', $video->id) }}" method="POST">
+                                        <form action="{{ route('adresses.favorite.toggle', $video->id) }}" method="POST">
                                             @csrf
                                             <button class="button is-warning is-small " type="submit">Favorite</button>
                                         </form>
                                     @endif
 
                                     @if (Auth::user()->favoriteVideos->Contains($video))
-                                        <form action="{{ route('videos.favorite.toggle', $video->id) }}" method="POST">
+                                        <form action="{{ route('adresses.favorite.toggle', $video->id) }}" method="POST">
                                             @csrf
                                             <button class="button is-warning is-small " type="submit">Un-Favorite</button>
                                         </form>

@@ -39,12 +39,6 @@
 </head>
 <body>
 
-@if(session('showPopup'))
-    <script>
-        alert('You need to favorite at least 3 videos before uploading, you currently have : {{ count(Auth::user()->favoriteVideos) }}'
-            );
-    </script>
-@endif
 
 
     <div id="app">
@@ -53,7 +47,7 @@
         <nav id="navbar" class="navbar navbar-expand-md shadow-sm">
             <div class="container">
                 <di class="navbar-brand mr-3">
-                    <img alt="Blips logo" src="{{asset('storage/Blips_Logo.png')}}">
+                    <img alt="logo" src="">
 
                 </di>
 
@@ -65,31 +59,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('videos.index') }}">
-                            Videos
+                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('adresses.index') }}">
+                        Adresses
+                        </a>
+                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('adresses.create') }}">
+                            Add an adress
+                        </a>
+                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('companies.index') }}">
+                            Companies
+                        </a>
+                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('companies.create') }}">
+                            Add a company
                         </a>
 
-                        @auth()
-                            @csrf
-
-                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('videos.create') }}">
-                            Upload
-                        </a>
-                            @if(auth()->user()->is_admin == 1)
-                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('categories.index') }}">
-                            Categories
-                        </a>
-
-                        <a class="navbar-item"  style="text-decoration:none;" href="{{ route('categories.create') }}">
-                            Category Create
-                        </a>
-
-
-                            <a class="navbar-item"  style="text-decoration:none;" href="{{ route('users.display_all') }}">
-                               All Users
-                            </a>
-                        @endif
-                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->

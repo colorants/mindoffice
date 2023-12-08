@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('video', function (Blueprint $table) {
-            //
+        Schema::create('companies', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('kvk');
+            $table->string('btw');
+            $table->foreignId('country_id') ; // foreign key
+            $table->timestamps();
+
         });
     }
 
@@ -21,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('video', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('companies');
     }
 };

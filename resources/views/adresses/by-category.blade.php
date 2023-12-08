@@ -2,10 +2,10 @@
 
 @section('content')
 <section>
-    @foreach($category->videos as $video)
+    @foreach($category->adresss as $adress)
         <div>
-            <h2>{{$video->title}}</h2>
-            <p>{{$video->description}}</p>
+            <h2>{{$adress->title}}</h2>
+            <p>{{$adress->description}}</p>
         </div>
         @endforeach
 </section>

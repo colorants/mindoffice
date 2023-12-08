@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdressController;
+use App\Http\Controllers\companyController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoCategoryController;
-use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Home Routes
+
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/search', [VideoController::class, 'search'])->name('videos.search');
+
+Route::get('/search', [AdressController::class, 'search'])->name('adresses.search');
 
 
 // User Profile Routes
@@ -29,32 +33,34 @@ Route::put('/profile/{user}', [UserController::class, 'update'])->name('users.up
 Route::get('/profile/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::post('/users/{user}/make-admin', [UserController::class, 'makeAdmin'])->name('users.make-admin');
 Route::post('/users/{user}/remove-admin', [UserController::class, 'removeAdmin'])->name('users.remove-admin');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete User
 
 
 
-// Video Routes
-Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
-Route::get('/videos/create', [VideoController::class, 'create'])->name('videos.create'); // Create Video Form
-Route::post('/videos', [VideoController::class, 'store'])->name('videos.store'); // Store New Video
-Route::get('/videos/{video}', [VideoController::class, 'show'])->name('videos.show'); // View Single Video
-Route::get('/videos/{video}/edit', [VideoController::class, 'edit'])->name('videos.edit'); // Edit Video Form
-Route::put('/videos/{video}', [VideoController::class, 'update'])->name('videos.update'); // Update Video
-Route::delete('/videos/{video}', [VideoController::class, 'destroy'])->name('videos.destroy'); // Delete Video
-Route::put('/videos/{video}', [VideoController::class, 'toggleActive'])->name('videos.active.toggle'); // Toggle Video Active Status
-Route::post('/videos/{video}', [VideoController::class, 'toggleFavorite'])->name('videos.favorite.toggle'); // Toggle Video Favorite Status
+// Adress Routes
+Route::get('/adresses', [AdressController::class, 'index'])->name('adresses.index');
+Route::get('/adresses/create', [AdressController::class, 'create'])->name('adresses.create'); // Create Adress Form
+Route::post('/adresses', [AdressController::class, 'store'])->name('adresses.store'); // Store New Adress
+Route::get('/adresses/{adress}', [AdressController::class, 'show'])->name('adresses.show'); // View Single Adress
+Route::get('/adresses/{adress}/edit', [AdressController::class, 'edit'])->name('adresses.edit'); // Edit Adress Form
+Route::put('/adresses/{adress}', [AdressController::class, 'update'])->name('adresses.update'); // Update Adress
+Route::delete('/adresses/{adress}', [AdressController::class, 'destroy'])->name('adresses.destroy'); // Delete Adress
 
-// Video Category Routes
-Route::get('/categories', [VideoCategoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/create', [VideoCategoryController::class, 'create'])->name('categories.create'); // Create Category Form
-Route::post('/categories', [VideoCategoryController::class, 'store'])->name('categories.store'); // Store New Category
-Route::get('/categories/{category}', [VideoCategoryController::class, 'show'])->name('categories.show'); // View Single Category
-Route::get('/categories/{category}/edit', [VideoCategoryController::class, 'edit'])->name('categories.edit'); // Edit Category Form
-Route::put('/categories/{category}', [VideoCategoryController::class, 'update'])->name('categories.update'); // Update Category
-Route::delete('/categories/{category}', [VideoCategoryController::class, 'destroy'])->name('categories.destroy'); // Delete Category
+Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
+Route::get('/companies/create', [CompanyController::class, 'create'])->name('companies.create'); // Create company Form
+Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store'); // Store New company
+Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show'); // View Single company
+Route::get('/companies/{company}/edit', [CompanyController::class, 'edit'])->name('companies.edit'); // Edit company Form
+Route::put('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update'); // Update company
+Route::delete('/companies/{company}', [CompanyController::class, 'destroy'])->name('companies.destroy'); // Delete company
+
+
+Route::get('form', [CountryController::class, 'index']);
+
 
 // Authentication Routes
 Auth::routes();
 
 // Resource Routes
 Route::resource('categories', VideoCategoryController::class);
-Route::resource('videos', VideoController::class);
+Route::resource('adresses', AdressController::class);
